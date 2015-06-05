@@ -7,6 +7,9 @@ def createNewImage(data_str, width, height, pixel_size):
 
     new_image_data = [[0 for x in range(width)] for y in range(height)]
     old_image_data = [[0 for x in range(width)] for y in range(height)]
+
+    # Converting our bit string string to a 2D array
+    # easier for manipulating when pixelating the image
     i = 0
     while (i < len(data_str)):
         for j in range(height):
@@ -14,6 +17,7 @@ def createNewImage(data_str, width, height, pixel_size):
                 old_image_data[j][k] = data_str[i]
                 i = i + 1
 
+    # Creating each pixel blok for final image
     for i in range(int(height/pixel_size)):
         for j in range(int(width/pixel_size)):
             h_start = i * pixel_size
@@ -33,10 +37,12 @@ def createNewImage(data_str, width, height, pixel_size):
                         numVals += 1
 
                     except Exception:
-                        pass
+                        continue
 
+            # Helps us avoid a divide by 0 error (this would occur when
+            # we are at the end of an image)
             if (numVals == 0):
-                numVals += 1
+                numVals = 1
 
             new_values = (value[0]//numVals, value[1]//numVals, value[2]//numVals)
 
@@ -57,18 +63,23 @@ def processData(data):
 
 
 def main():
-    if (len(sys.argv) != 3):
+    if (len(sys.argv) != 4):
         print("incorrect number of arguments")
         return
 
+    # Read in image file name (with extension)
     image_fp = sys.argv[1]
+    # Read in the pixel size (in number of pixels)
     block_size = int(sys.argv[2])
+    # Read in output file name (with extension) for new image
+    file_output_name = sys.argv[3]
 
     image = None
     try:
         image = Image.open(image_fp)
     except Exception:
         print("Unable to open image file {image_filepath}.".format(image_filepath=image_fp))
+        print("Image may nto exist")
 
     if image:
         image_data = list(image.getdata())
@@ -78,7 +89,7 @@ def main():
 
         new_image = Image.new(image.mode, image.size)
         new_image.putdata(new_data)
-        new_image.show()
+        new_image.save(file_output_name)
 
     return
 
