@@ -46,12 +46,15 @@ def createNewImage(data_str, width, height, pixel_size):
 
             new_values = (value[0]//numVals, value[1]//numVals, value[2]//numVals)
 
+            # Assign averaged data to each pixel of the new block
+            # based on the our pixel block size
             for a in range(h_start, h_start + pixel_size):
                 for b in range(w_start, w_start + pixel_size):
                     try:
                         new_image_data[a][b] = new_values
                     except Exception:
                         pass
+    # Our new data for the new image
     return new_image_data
 
 def processData(data):
@@ -84,7 +87,10 @@ def main():
     if image:
         image_data = list(image.getdata())
         size = image.size
+
+        # new_data is a 2D array of pixelated data
         new_data = createNewImage(image_data, size[0], size[1], block_size)
+        # converts 2D array to 1D array
         new_data = processData(new_data)
 
         new_image = Image.new(image.mode, image.size)

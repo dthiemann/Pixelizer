@@ -6,3 +6,8 @@ To execute this program, call:
 ```
 python3.4 pixelizer.py file_name.ext pixel_block_size_int output_file.ext
 ```
+
+<br><br>
+Thanks for downloading!
+<br>
+Dylan
