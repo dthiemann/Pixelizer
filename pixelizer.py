@@ -54,6 +54,7 @@ def createNewImage(data_str, width, height, pixel_size):
                         new_image_data[a][b] = new_values
                     except Exception:
                         pass
+
     # Our new data for the new image
     return new_image_data
 
